@@ -25,9 +25,12 @@ export default function Home() {
     }
 
     if (timeLeft === 0) {
+      //api call will be done from here to store the session data
+      console.log("done");
       setIsRunning(false);
+      setIsBreak((prev) => !prev);
+      setTimeLeft(3 * 60);
     }
-
     return () => {
       if (timer !== null) clearInterval(timer);
     };
@@ -36,8 +39,16 @@ export default function Home() {
   return (
     <div className=" flex justify-center text-white gap-2">
       {/* timer part */}
-      <div className=" w-full bg-slate-600 rounded flex flex-col items-center gap-5 py-2">
-        <TimerNav isBreak={isBreak} setIsBreak={setIsBreak} />
+      <div
+        className={` w-full rounded flex flex-col items-center gap-5 py-2 ${
+          isBreak ? "bg-red-200 bg-opacity-25" : "bg-green-200 bg-opacity-25"
+        }`}
+      >
+        <TimerNav
+          isBreak={isBreak}
+          setIsBreak={setIsBreak}
+          setTimeLeft={setTimeLeft}
+        />
         <CountDown timeLeft={timeLeft} />
         <button
           onClick={handleStartStop}
@@ -48,7 +59,9 @@ export default function Home() {
           {isRunning ? "Freeze" : "Let's go"}
         </button>
       </div>
-      <div className=" w-full bg-green-300 rounded"></div>
+      <div className=" w-full bg-amber-200 rounded bg-opacity-25 text-white text-center">
+        motivaton text
+      </div>
     </div>
   );
 }
