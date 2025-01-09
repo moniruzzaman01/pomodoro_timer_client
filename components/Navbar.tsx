@@ -1,6 +1,10 @@
+"use client";
+import { useGetUserQuery } from "@/app/rtk/api/apiSlice";
 import React from "react";
 
 export default function Navbar() {
+  const { data, isLoading, isError } = useGetUserQuery(11);
+  console.log(data);
   return (
     <div className=" text-white flex items-end justify-between h-12">
       <div className=" font-bold py-1">SITENAME</div>
