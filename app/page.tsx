@@ -3,12 +3,14 @@
 import CountDown from "@/components/CountDown";
 import TimerNav from "@/components/TimerNav";
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 export default function Home() {
-  const [timeLeft, setTimeLeft] = useState(20 * 60);
+  const [timeLeft, setTimeLeft] = useState(25 * 60);
   const [isRunning, setIsRunning] = useState(false);
   const [isBreak, setIsBreak] = useState(false);
-
+  const user = useSelector((state) => state.user);
+  // console.log("timeleft", timeLeft, isBreak);
   // Start or stop the timer
   const handleStartStop = () => {
     setIsRunning((prev) => !prev);
@@ -26,6 +28,11 @@ export default function Home() {
 
     if (timeLeft === 0) {
       //api call will be done from here to store the session data
+      const sessionData = {
+        email: user?.email,
+        duration: 1500,
+      };
+      console.log(sessionData);
       console.log("done");
       setIsRunning(false);
       setIsBreak((prev) => !prev);

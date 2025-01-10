@@ -20,7 +20,7 @@ const TimerNav: React.FC<TimerNavProps> = ({
   return (
     <div className=" flex justify-center gap-2 ">
       <button
-        onClick={() => handleButtonClick(1200)}
+        onClick={() => handleButtonClick(1500)}
         className={` px-6 rounded hover:bg-slate-900 duration-200 ${
           !isBreak && "bg-slate-900"
         }`}

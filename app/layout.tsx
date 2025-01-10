@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { Poppins } from "@next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-import StoreProvider from "./rtk/provider";
+import ReduxProvider from "./redux/provider";
+import { SessionProvider } from "next-auth/react";
+import Client from "@/components/Client";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -22,13 +24,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.className} antialiased bg-slate-900`}>
-        <StoreProvider>
-          <div className=" max-w-3xl mx-auto">
-            <Navbar></Navbar>
-            <div className=" h-[1px] bg-slate-700 my-2"></div>
-            {children}
-          </div>
-        </StoreProvider>
+        <SessionProvider>
+          <ReduxProvider>
+            <div className=" max-w-3xl mx-auto">
+              <Client></Client>
+              <Navbar></Navbar>
+              <div className=" h-[1px] bg-slate-700 my-2"></div>
+              {children}
+            </div>
+          </ReduxProvider>
+        </SessionProvider>
       </body>
     </html>
   );
