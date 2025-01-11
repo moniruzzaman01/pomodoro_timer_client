@@ -7,23 +7,24 @@ import { useDispatch } from "react-redux";
 
 export default function Client() {
   const dispatch = useDispatch();
-  const session = useSession();
+  const { data } = useSession();
+  // console.log(data);
   useEffect(() => {
-    if (session.data) {
+    if (data) {
       try {
         fetch(`http://localhost:5001/api/v1/users/add-a-user`, {
           method: "POST",
           headers: {
             "content-type": "application/json",
           },
-          body: JSON.stringify(session.data.user),
+          body: JSON.stringify(data.user),
         });
       } catch (error) {
         console.log(error);
       }
-      dispatch(setUser(session.data.user));
+      dispatch(setUser(data.user));
     }
-  }, [session, dispatch]);
+  }, [data, dispatch]);
 
   return <div></div>;
 }

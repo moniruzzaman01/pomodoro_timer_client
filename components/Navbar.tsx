@@ -2,7 +2,7 @@ import { auth, signIn, signOut } from "@/auth";
 import React from "react";
 
 export default async function Navbar() {
-  const { user } = await auth();
+  const { user } = (await auth()) || {};
   // console.log("user", user);
   return (
     <div className=" text-white flex items-end justify-between h-12">

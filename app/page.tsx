@@ -3,6 +3,7 @@
 import CompleteButton from "@/components/CompleteButton";
 import CountDown from "@/components/CountDown";
 import ResetButton from "@/components/ResetButton";
+import Table from "@/components/Table";
 import TimerButton from "@/components/TimerButton";
 import TimerNav from "@/components/TimerNav";
 import { useState, useEffect } from "react";
@@ -37,7 +38,9 @@ export default function Home() {
         body: JSON.stringify(sessionData),
       })
         .then((res) => res.json())
-        .then((data) => console.log("data-37: ", data));
+        .then((data) => {
+          console.log("data-37: ", data);
+        });
     }
     handleReset();
   };
@@ -75,37 +78,45 @@ export default function Home() {
     return () => {
       if (timer !== null) clearInterval(timer);
     };
-  }, [isRunning, timeLeft]);
+  }, [isRunning, timeLeft, isBreak, user]);
 
   return (
-    <div className=" flex justify-center text-white gap-2">
-      {/* timer part */}
-      <div
-        className={` w-full rounded flex flex-col items-center gap-5 py-2 ${
-          isBreak ? "bg-red-200 bg-opacity-25" : "bg-green-200 bg-opacity-25"
-        }`}
-      >
-        <TimerNav
-          isBreak={isBreak}
-          setIsBreak={setIsBreak}
-          setTimeLeft={setTimeLeft}
-        />
-        <CountDown timeLeft={timeLeft} />
-        <div className=" flex justify-between items-end gap-2">
-          <CompleteButton
-            handleComplete={handleComplete}
-            timeLeft={timeLeft}
+    <div>
+      <div className=" flex justify-center text-white gap-2 mb-4">
+        {/* timer part */}
+        <div
+          className={` w-full rounded flex flex-col items-center gap-5 py-2 ${
+            isBreak ? "bg-red-200 bg-opacity-25" : "bg-green-200 bg-opacity-25"
+          }`}
+        >
+          <TimerNav
             isBreak={isBreak}
+            setIsBreak={setIsBreak}
+            setTimeLeft={setTimeLeft}
           />
-          <TimerButton
-            handleStartStop={handleStartStop}
-            isRunning={isRunning}
-          />
-          <ResetButton handleReset={handleReset} />
+          <CountDown timeLeft={timeLeft} />
+          <div className=" flex justify-between items-end gap-2">
+            <CompleteButton
+              handleComplete={handleComplete}
+              timeLeft={timeLeft}
+              isBreak={isBreak}
+            />
+            <TimerButton
+              handleStartStop={handleStartStop}
+              isRunning={isRunning}
+            />
+            <ResetButton handleReset={handleReset} />
+          </div>
+        </div>
+        <div className=" w-full bg-amber-200 rounded bg-opacity-25 text-white text-center">
+          motivaton text
         </div>
       </div>
-      <div className=" w-full bg-amber-200 rounded bg-opacity-25 text-white text-center">
-        motivaton text
+      <div>
+        <h1 className=" text-2xl text-white text-center mb-2">
+          Todays All Session
+        </h1>
+        <Table />
       </div>
     </div>
   );
