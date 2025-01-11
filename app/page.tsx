@@ -1,6 +1,9 @@
 "use client";
 
+import CompleteButton from "@/components/CompleteButton";
 import CountDown from "@/components/CountDown";
+import ResetButton from "@/components/ResetButton";
+import TimerButton from "@/components/TimerButton";
 import TimerNav from "@/components/TimerNav";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -10,11 +13,11 @@ export default function Home() {
   const [isRunning, setIsRunning] = useState(false);
   const [isBreak, setIsBreak] = useState(false);
   const user = useSelector((state) => state.user);
+
   // Start or stop the timer
   const handleStartStop = () => {
     setIsRunning((prev) => !prev);
   };
-
   const handleReset = () => {
     setTimeLeft(25 * 60);
     setIsRunning(false);
@@ -38,7 +41,6 @@ export default function Home() {
     }
     handleReset();
   };
-
   // Countdown logic
   useEffect(() => {
     let timer: number | null = null;
@@ -90,28 +92,16 @@ export default function Home() {
         />
         <CountDown timeLeft={timeLeft} />
         <div className=" flex justify-between items-end gap-2">
-          <button
-            onClick={handleComplete}
-            className={` px-1 py-0 rounded  hover:scale-105 duration-200 text-xs bg-green-500 ${
-              timeLeft < 1500 ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            Complete
-          </button>
-          <button
-            onClick={handleStartStop}
-            className={` px-6 py-3 rounded font-bold tracking-wider hover:scale-105 duration-200 ${
-              isRunning ? "bg-red-500" : "bg-slate-900"
-            }`}
-          >
-            {isRunning ? "Freeze" : "Let's go"}
-          </button>
-          <button
-            onClick={handleReset}
-            className={` px-1 py-0 rounded  hover:scale-105 duration-200 text-xs bg-red-500`}
-          >
-            Reset
-          </button>
+          <CompleteButton
+            handleComplete={handleComplete}
+            timeLeft={timeLeft}
+            isBreak={isBreak}
+          />
+          <TimerButton
+            handleStartStop={handleStartStop}
+            isRunning={isRunning}
+          />
+          <ResetButton handleReset={handleReset} />
         </div>
       </div>
       <div className=" w-full bg-amber-200 rounded bg-opacity-25 text-white text-center">
