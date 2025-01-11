@@ -10,10 +10,33 @@ export default function Home() {
   const [isRunning, setIsRunning] = useState(false);
   const [isBreak, setIsBreak] = useState(false);
   const user = useSelector((state) => state.user);
-  // console.log("timeleft", timeLeft, isBreak);
   // Start or stop the timer
   const handleStartStop = () => {
     setIsRunning((prev) => !prev);
+  };
+
+  const handleReset = () => {
+    setTimeLeft(25 * 60);
+    setIsRunning(false);
+    setIsBreak(false);
+  };
+  const handleComplete = () => {
+    if (user && !isBreak) {
+      const sessionData = {
+        email: user?.email,
+        duration: 1500 - timeLeft,
+      };
+      fetch(`http://localhost:5001/api/v1/focus-session/add-session`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(sessionData),
+      })
+        .then((res) => res.json())
+        .then((data) => console.log("data-37: ", data));
+    }
+    handleReset();
   };
 
   // Countdown logic
@@ -27,13 +50,22 @@ export default function Home() {
     }
 
     if (timeLeft === 0) {
-      //api call will be done from here to store the session data
-      const sessionData = {
-        email: user?.email,
-        duration: 1500,
-      };
-      console.log(sessionData);
-      console.log("done");
+      if (user && !isBreak) {
+        const sessionData = {
+          email: user?.email,
+          duration: 1500,
+        };
+        fetch(`http://localhost:5001/api/v1/focus-session/add-session`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(sessionData),
+        })
+          .then((res) => res.json())
+          .then((data) => console.log("data-44: ", data));
+      }
+
       setIsRunning(false);
       setIsBreak((prev) => !prev);
       setTimeLeft(3 * 60);
@@ -57,14 +89,30 @@ export default function Home() {
           setTimeLeft={setTimeLeft}
         />
         <CountDown timeLeft={timeLeft} />
-        <button
-          onClick={handleStartStop}
-          className={` px-6 py-3 rounded font-bold tracking-wider hover:scale-105 duration-200 ${
-            isRunning ? "bg-red-500" : "bg-slate-900"
-          }`}
-        >
-          {isRunning ? "Freeze" : "Let's go"}
-        </button>
+        <div className=" flex justify-between items-end gap-2">
+          <button
+            onClick={handleComplete}
+            className={` px-1 py-0 rounded  hover:scale-105 duration-200 text-xs bg-green-500 ${
+              timeLeft < 1500 ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            Complete
+          </button>
+          <button
+            onClick={handleStartStop}
+            className={` px-6 py-3 rounded font-bold tracking-wider hover:scale-105 duration-200 ${
+              isRunning ? "bg-red-500" : "bg-slate-900"
+            }`}
+          >
+            {isRunning ? "Freeze" : "Let's go"}
+          </button>
+          <button
+            onClick={handleReset}
+            className={` px-1 py-0 rounded  hover:scale-105 duration-200 text-xs bg-red-500`}
+          >
+            Reset
+          </button>
+        </div>
       </div>
       <div className=" w-full bg-amber-200 rounded bg-opacity-25 text-white text-center">
         motivaton text
