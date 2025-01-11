@@ -9,7 +9,12 @@ export default function TodaysDuration() {
   useEffect(() => {
     if (user) {
       fetch(
-        `http://localhost:5001/api/v1/focus-session/todays-duration/${user?.email}`
+        `http://localhost:5001/api/v1/focus-session/todays-duration/${user?.email}`,
+        {
+          headers: {
+            authorization: `bearer ${localStorage.getItem("token")}`,
+          },
+        }
       )
         .then((res) => res.json())
         .then((data) => setDuration(data.duration));

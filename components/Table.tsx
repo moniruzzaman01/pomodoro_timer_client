@@ -12,7 +12,12 @@ export default function Table() {
   useEffect(() => {
     if (user?.email) {
       fetch(
-        `http://localhost:5001/api/v1/focus-session/todays-session/${user.email}`
+        `http://localhost:5001/api/v1/focus-session/todays-session/${user.email}`,
+        {
+          headers: {
+            authorization: `bearer ${localStorage.getItem("token")}`,
+          },
+        }
       )
         .then((res) => res.json())
         .then((data) => {

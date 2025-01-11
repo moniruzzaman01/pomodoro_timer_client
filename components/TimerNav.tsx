@@ -12,7 +12,7 @@ const TimerNav: React.FC<TimerNavProps> = ({
   setTimeLeft,
 }) => {
   const handleButtonClick = (time: number) => {
-    console.log(time);
+    // console.log(time);
     setIsBreak(!isBreak);
     setTimeLeft(time);
   };

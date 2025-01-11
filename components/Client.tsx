@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 export default function Client() {
   const dispatch = useDispatch();
   const { data } = useSession();
-  // console.log(data);
+
   useEffect(() => {
     if (data) {
       try {
@@ -18,7 +18,21 @@ export default function Client() {
             "content-type": "application/json",
           },
           body: JSON.stringify(data.user),
-        });
+        })
+          .then((res) => res.json())
+          .then(() => {
+            fetch(`http://localhost:5001/jwt`, {
+              method: "POST",
+              headers: {
+                "content-type": "application/json",
+              },
+              body: JSON.stringify(data.user),
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                localStorage.setItem("token", data.token);
+              });
+          });
       } catch (error) {
         console.log(error);
       }

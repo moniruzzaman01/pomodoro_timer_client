@@ -5,7 +5,7 @@ interface initialStateInterface {
   name: string;
   email: string;
   image: string;
-  expires: string;
+  token: string;
 }
 const initialState: initialStateInterface | null = null;
 
