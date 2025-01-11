@@ -6,6 +6,7 @@ import ResetButton from "@/components/ResetButton";
 import Table from "@/components/Table";
 import TimerButton from "@/components/TimerButton";
 import TimerNav from "@/components/TimerNav";
+import TodaysDuration from "@/components/TodaysDuration";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
@@ -109,7 +110,7 @@ export default function Home() {
           </div>
         </div>
         <div className=" w-full bg-amber-200 rounded bg-opacity-25 text-white text-center">
-          motivaton text
+          <TodaysDuration />
         </div>
       </div>
       <div>

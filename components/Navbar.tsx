@@ -1,4 +1,5 @@
 import { auth, signIn, signOut } from "@/auth";
+import Link from "next/link";
 import React from "react";
 
 export default async function Navbar() {
@@ -6,9 +7,13 @@ export default async function Navbar() {
   // console.log("user", user);
   return (
     <div className=" text-white flex items-end justify-between h-12">
-      <div className=" font-bold py-1">SITENAME</div>
+      <Link href="/" className=" font-bold py-1">
+        SITENAME
+      </Link>
       <div className=" flex gap-2">
-        <button className=" bg-slate-800 px-3 py-1 rounded">Statistics</button>
+        <Link href="/dashboard" className=" bg-slate-800 px-3 py-1 rounded">
+          Dashboard
+        </Link>
         {user ? (
           <form
             action={async () => {
