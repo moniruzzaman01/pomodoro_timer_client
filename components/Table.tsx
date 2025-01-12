@@ -1,35 +1,37 @@
 "use client";
 
-import { setSession } from "@/app/redux/features/session/sessionSlice";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import useTodaysSession from "@/hooks/useTodaysSession";
+import React from "react";
+import { useSelector } from "react-redux";
 
 export default function Table() {
-  const user = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+  // const user = useSelector((state) => state.user);
+  // const dispatch = useDispatch();
   const session = useSelector((state) => state.session);
-
-  useEffect(() => {
-    if (user?.email) {
-      fetch(
-        `http://localhost:5001/api/v1/focus-session/todays-session/${user.email}`,
-        {
-          headers: {
-            authorization: `bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          const sortedData = data.sort(
-            (b, a) =>
-              new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
-          );
-          dispatch(setSession(sortedData));
-          //   setTodaysSession(sortedData);
-        });
-    }
-  }, [user?.email, dispatch]);
+  const { isLoading } = useTodaysSession();
+  // console.log(result);
+  // useEffect(() => {
+  //   if (user?.email) {
+  //     fetch(
+  //       `http://localhost:5001/api/v1/focus-session/todays-session/${user.email}`,
+  //       {
+  //         headers: {
+  //           authorization: `bearer ${localStorage.getItem("token")}`,
+  //         },
+  //       }
+  //     )
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         const sortedData = data.sort(
+  //           (b, a) =>
+  //             new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+  //         );
+  //         dispatch(setSession(sortedData));
+  //         //   setTodaysSession(sortedData);
+  //       });
+  //   }
+  // }, [user?.email, dispatch]);
+  if (isLoading) return;
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg  max-h-[60vh] overflow-y-auto">

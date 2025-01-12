@@ -7,6 +7,8 @@ import Table from "@/components/Table";
 import TimerButton from "@/components/TimerButton";
 import TimerNav from "@/components/TimerNav";
 import TodaysDuration from "@/components/TodaysDuration";
+import useTodaysDuration from "@/hooks/useTodaysDuration";
+import useTodaysSession from "@/hooks/useTodaysSession";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
@@ -15,6 +17,8 @@ export default function Home() {
   const [isRunning, setIsRunning] = useState(false);
   const [isBreak, setIsBreak] = useState(false);
   const user = useSelector((state) => state.user);
+  const { refetch: sessionRefectch } = useTodaysSession();
+  const { refetch: durationRefetch } = useTodaysDuration();
 
   // Start or stop the timer
   const handleStartStop = () => {
@@ -25,23 +29,22 @@ export default function Home() {
     setIsRunning(false);
     setIsBreak(false);
   };
-  const handleComplete = () => {
+  const handleComplete = async () => {
     if (user && !isBreak) {
       const sessionData = {
         email: user?.email,
         duration: 1500 - timeLeft,
       };
-      fetch(`http://localhost:5001/api/v1/focus-session/add-session`, {
+      await fetch(`http://localhost:5001/api/v1/focus-session/add-session`, {
         method: "POST",
         headers: {
           "content-type": "application/json",
+          authorization: `bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify(sessionData),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          // console.log("data-37: ", data);
-        });
+      });
+      sessionRefectch();
+      durationRefetch();
     }
     handleReset();
   };
@@ -65,11 +68,15 @@ export default function Home() {
           method: "POST",
           headers: {
             "content-type": "application/json",
+            authorization: `bearer ${localStorage.getItem("token")}`,
           },
           body: JSON.stringify(sessionData),
         })
           .then((res) => res.json())
-          .then((data) => console.log("data-44: ", data));
+          .then(() => {
+            sessionRefectch();
+            durationRefetch();
+          });
       }
 
       setIsRunning(false);
@@ -79,7 +86,7 @@ export default function Home() {
     return () => {
       if (timer !== null) clearInterval(timer);
     };
-  }, [isRunning, timeLeft, isBreak, user]);
+  }, [isRunning, timeLeft, isBreak, user, sessionRefectch, durationRefetch]);
 
   return (
     <div>

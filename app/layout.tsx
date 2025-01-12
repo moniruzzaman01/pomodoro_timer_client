@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import ReduxProvider from "./redux/provider";
 import { SessionProvider } from "next-auth/react";
 import Client from "@/components/Client";
+import ReactQueryProvider from "@/reactQuery/provider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -24,16 +25,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.className} antialiased bg-slate-900`}>
-        <SessionProvider>
-          <ReduxProvider>
-            <div className=" max-w-3xl mx-auto">
-              <Client></Client>
-              <Navbar></Navbar>
-              <div className=" h-[1px] bg-slate-700 my-2"></div>
-              {children}
-            </div>
-          </ReduxProvider>
-        </SessionProvider>
+        <ReactQueryProvider>
+          <SessionProvider>
+            <ReduxProvider>
+              <div className=" max-w-3xl mx-auto">
+                <Client></Client>
+                <Navbar></Navbar>
+                <div className=" h-[1px] bg-slate-700 my-2"></div>
+                {children}
+              </div>
+            </ReduxProvider>
+          </SessionProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );
