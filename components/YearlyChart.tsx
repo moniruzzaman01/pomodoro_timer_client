@@ -11,8 +11,7 @@ import {
 } from "recharts";
 
 export default function YearlyChart() {
-  const { data, isLoading } = useThisYearsSession();
-  console.log("data", data, isLoading);
+  const { data } = useThisYearsSession();
 
   return (
     <>
