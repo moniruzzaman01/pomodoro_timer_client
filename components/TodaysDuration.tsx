@@ -3,6 +3,7 @@ import useTodaysDuration from "@/hooks/useTodaysDuration";
 
 export default function TodaysDuration() {
   const { data, isLoading } = useTodaysDuration();
+
   if (isLoading) return;
 
   return (
@@ -24,7 +25,12 @@ export default function TodaysDuration() {
           sec
         </div>
       ) : (
-        <div>loading</div>
+        <div className=" text-xs">
+          <span className="text-8xl font-bold">00</span>
+          min
+          <span className="text-8xl font-bold">00</span>
+          sec
+        </div>
       )}
     </div>
   );

@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface initialStateInterface {
+export interface initialStateInterface {
   userid: number | null;
   duration: number;
   timestamp: string;
   email: string;
 }
-const initialState: initialStateInterface[] | null = null;
+const initialState: initialStateInterface[] = [];
 
 const sessionSlice = createSlice({
   name: "session",

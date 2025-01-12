@@ -7,7 +7,13 @@ interface initialStateInterface {
   image: string;
   token: string;
 }
-const initialState: initialStateInterface | null = null;
+const initialState: initialStateInterface = {
+  id: "",
+  name: "",
+  email: "",
+  image: "",
+  token: "",
+};
 
 const userSlice = createSlice({
   name: "user",

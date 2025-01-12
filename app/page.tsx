@@ -11,12 +11,13 @@ import useTodaysDuration from "@/hooks/useTodaysDuration";
 import useTodaysSession from "@/hooks/useTodaysSession";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { RootState } from "@/app/redux/store";
 
 export default function Home() {
   const [timeLeft, setTimeLeft] = useState(25 * 60);
   const [isRunning, setIsRunning] = useState(false);
   const [isBreak, setIsBreak] = useState(false);
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state: RootState) => state.user);
   const { refetch: sessionRefectch } = useTodaysSession();
   const { refetch: durationRefetch } = useTodaysDuration();
 
@@ -30,7 +31,7 @@ export default function Home() {
     setIsBreak(false);
   };
   const handleComplete = async () => {
-    if (user && !isBreak) {
+    if (user.email && !isBreak) {
       const sessionData = {
         email: user?.email,
         duration: 1500 - timeLeft,
@@ -59,7 +60,7 @@ export default function Home() {
     }
 
     if (timeLeft === 0) {
-      if (user && !isBreak) {
+      if (user.email && !isBreak) {
         const sessionData = {
           email: user?.email,
           duration: 1500,
@@ -86,7 +87,14 @@ export default function Home() {
     return () => {
       if (timer !== null) clearInterval(timer);
     };
-  }, [isRunning, timeLeft, isBreak, user, sessionRefectch, durationRefetch]);
+  }, [
+    isRunning,
+    timeLeft,
+    isBreak,
+    user.email,
+    sessionRefectch,
+    durationRefetch,
+  ]);
 
   return (
     <div>
