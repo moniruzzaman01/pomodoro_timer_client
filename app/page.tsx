@@ -36,14 +36,17 @@ export default function Home() {
         email: user?.email,
         duration: 1500 - timeLeft,
       };
-      await fetch(`http://localhost:5001/api/v1/focus-session/add-session`, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          authorization: `bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify(sessionData),
-      });
+      await fetch(
+        `https://pomodoro-timer-server.vercel.app/api/v1/focus-session/add-session`,
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            authorization: `bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify(sessionData),
+        }
+      );
       sessionRefectch();
       durationRefetch();
     }
@@ -65,14 +68,17 @@ export default function Home() {
           email: user?.email,
           duration: 1500,
         };
-        fetch(`http://localhost:5001/api/v1/focus-session/add-session`, {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-            authorization: `bearer ${localStorage.getItem("token")}`,
-          },
-          body: JSON.stringify(sessionData),
-        })
+        fetch(
+          `https://pomodoro-timer-server.vercel.app/api/v1/focus-session/add-session`,
+          {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+              authorization: `bearer ${localStorage.getItem("token")}`,
+            },
+            body: JSON.stringify(sessionData),
+          }
+        )
           .then((res) => res.json())
           .then(() => {
             sessionRefectch();

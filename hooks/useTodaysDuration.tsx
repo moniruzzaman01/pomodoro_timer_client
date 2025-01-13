@@ -10,7 +10,7 @@ export default function useTodaysDuration() {
     enabled: !!session?.user?.email && !!localStorage.getItem("token"),
     queryFn: async () => {
       const res = await fetch(
-        `http://localhost:5001/api/v1/focus-session/todays-duration/${session?.user?.email}`,
+        `https://pomodoro-timer-server.vercel.app/api/v1/focus-session/todays-duration/${session?.user?.email}`,
         {
           headers: {
             authorization: `bearer ${localStorage.getItem("token")}`,

@@ -14,16 +14,19 @@ export default function Client() {
   useEffect(() => {
     if (data) {
       try {
-        fetch(`http://localhost:5001/api/v1/users/add-a-user`, {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(data.user),
-        })
+        fetch(
+          `https://pomodoro-timer-server.vercel.app/api/v1/users/add-a-user`,
+          {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify(data.user),
+          }
+        )
           .then((res) => res.json())
           .then(() => {
-            fetch(`http://localhost:5001/jwt`, {
+            fetch(`https://pomodoro-timer-server.vercel.app/jwt`, {
               method: "POST",
               headers: {
                 "content-type": "application/json",
